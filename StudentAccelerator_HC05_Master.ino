@@ -10,8 +10,8 @@ SoftwareSerial BTserial(9,10); // Arduino RX 9 - BT TX 9  | Arduino TX 10 - BT R
 
 float tempf = 0;
 
-int power = ?;
-int GND = ?;
+//int power = ?;
+//int GND = ?;
 
 Weather sensor;
 
@@ -28,13 +28,16 @@ void setup()
     BTserial.begin(9600);  
     Serial.println("Bluetooth Serial Begin");
     
-    // sets the output pins 
-    pinMode(power, OUTPUT);
-    pinMode(GND, OUTPUT);
+    // set inputs and outputs
+//    pinMode(power, OUTPUT);
+//    pinMode(GND, OUTPUT);
+    pinMode(6,INPUT);
+
     
-    // write 
-    digitalWrite(power, HIGH);
-    digitalWrite(GND, LOW);
+    // set corresponding voltage
+//    digitalWrite(power, HIGH);
+//    digitalWrite(GND, LOW);
+    digitalWrite(6,LOW);
 
     //Initialize the I2C sensors and ping them
     sensor.begin();
@@ -73,5 +76,3 @@ void printInfo()
   Serial.print(tempf);
   Serial.print("F, ");
 }
-
-
