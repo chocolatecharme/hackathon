@@ -9,6 +9,13 @@
 SoftwareSerial BTserial(9,10); // Arduino RX 9 - BT TX 9  | Arduino TX 10 - BT RX 10 
 
 float tempf = 0;
+bool motion = 0;
+
+struct DataPack
+{
+  int tempData;
+  bool motionData;
+};
 
 //int power = ?;
 //int GND = ?;
@@ -48,6 +55,7 @@ void loop()
     getWeather();
     checkMotion();
     printInfo();
+    sendData();
     delay(1000);
 }
 
@@ -59,10 +67,12 @@ void checkMotion()
 {
   if(digitalRead(4)==HIGH)  
     {
+      motion = 1;
       Serial.println("Movement detected.");
     }
     else  
     {
+      motion = 0;
       Serial.println("Nothing.");
     }
     delay(1000);
@@ -75,4 +85,15 @@ void printInfo()
   Serial.print("Temp:");
   Serial.print(tempf);
   Serial.print("F, ");
+}
+
+void sendData() {
+ //read value from button(pin 3) and send via Bluetooth 
+ BTserial.print(motion + "-" + static_cast<int>(tempf)); 
+ 
+ //read value from button(pin 3) and send to serial monitor 
+ Serial.println(motion + "-" + static_cast<int>(tempf));
+
+ //delay 50milliseconds 
+ delay(50);   
 }
